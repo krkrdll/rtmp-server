@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+
+  streaming:
+    build: .
+    container_name: rtmp-server
+    ports:
+      - "80:80"
+      - "1935:1935"
+    # volumes:
+    #   - ./html/:/var/www/html/

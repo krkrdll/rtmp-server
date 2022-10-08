@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://unpkg.com/video.js@7.20.3/dist/video-js.min.css">
+</head>
+
+<body style="margin: 0;">
+  <input type="text" style="width: 100%;">
+  <video-js id="video" controls class="video-js" style="width: 100%; height: 56.25vw;"></video-js>
+
+  <script src="https://unpkg.com/video.js@7.20.3/dist/video.min.js"></script>
+  <script src="https://unpkg.com/@videojs/http-streaming@2.15.0/dist/videojs-http-streaming.min.js"></script>
+  <script>
+    const input = document.querySelector("input");
+    input.value = `${location.origin}/hls/test.m3u8`;
+
+    const playHls = (url) => {
+      const player = videojs("video");
+      player.src({ src: url, type: "application/x-mpegURL" });
+      player.play();
+    }
+
+    const playDash = (url) => {
+      const player = videojs("video");
+      player.src({ src: url, type: "application/dash+xml" });
+      player.play();
+    }
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key !== "Enter") return;
+
+      const url = input.value;
+      if (/\.m3u8$/g.test(url)) playHls(url);
+      else if (/\.mpd$/g.test(url)) playDash(url);
+    });
+  </script>
+</body>
+
+</html>
